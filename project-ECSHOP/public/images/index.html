@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0054)http://www.doudoufei.top/shops/admin/index.php?act=top -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+
+<link href="general.css" rel="stylesheet" type="text/css">
+
+
+<style type="text/css">
+#header-div {
+	background: #303030; height:76px;
+}
+
+#logo-div {
+	margin-left: 30px;
+	margin-top: 20px;
+	width: 262px;
+	height: 45px;
+	float: left;
+}
+
+#license-div {
+	height: 50px;
+	float: left;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+}
+
+#license-div a:visited, #license-div a:link {
+  color: #EB8A3D;
+}
+
+#license-div a:hover {
+  text-decoration: none;
+  color: #EB8A3D;
+}
+#loading-div {
+	clear: right;
+	text-align: right;
+	display: block;
+}
+#submenu-div {
+	text-align: center;
+	width: 1000px;
+	position: absolute;
+	right: 0px;
+	height: 75px;
+}
+
+#submenu-div ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#submenu-div li {
+	float: right;
+	width: 82px;
+	height: 82px;
+	/*
+	border-left: 1px solid #27aae7;
+	border-right: 1px solid #0779ba;
+	*/
+}
+#submenu-div li a {
+	text-align: center;
+	height: 67px;
+	width: 82px;
+	padding-top: 8px;
+	display: block;
+	text-decoration: none;
+	color: #FFF;
+}
+#submenu-div li a:hover {
+	background:#404040;
+}
+#submenu-div li span {
+	margin-top: 6px;
+	display: block;
+}
+#submenu-div li img {
+	margin: auto;
+	display: block;
+	height:35px;
+}
+#menu-div {
+	background: #575757;
+	height: 41px;
+	border-bottom:1px solid #212121;
+}
+
+#menu-div ul {
+	margin: 0px 0px 0px 15px;
+	padding: 0;
+	list-style-type: none;
+}
+#menu-div ul li {
+	float: left;
+	display: block;
+	height: 41px;
+	line-height: 41px;
+	position: relative;
+}
+.muneFG {
+	height: 13px;
+	width: 0px;
+	border-right: 1px solid #656565;
+	margin-top: 15px;
+*margin-top:-18px;
+	_margin-top: 0px;
+	border-left: 1px solid #303030;
+	display: inline-block;
+}
+#menu-div ul li a {
+	float: LEFT;
+	color: #FFF;
+	padding: 0px 12px;
+	display: block;
+	text-decoration: none;
+	_margin-top: 14px;
+}
+#menu-div ul li a:hover {
+	background: #1887bb
+}
+#menu-div ul li a span {
+	margin-left: 10px;
+}
+#menu-div ul li div.drop_menu{
+	height:180px; width:160px;border:1px solid #e5e5e5; background:#f4f4f4; position:absolute;left:0;top:42px; z-index:1000;
+}
+.num {
+	width: 32px;
+	height: 16px;
+	background: url(images/index-11_22.png) no-repeat scroll;
+	display: inline-block;
+	line-height: 16px;
+	vertical-align: middle;
+	text-align: center;
+}
+#menu-div ul li a img {
+	border: none;
+}
+#menu-div ul li ul {
+	display: none;
+}
+#menu-div ul li:hover a {
+	color: #fff;
+	background: #454545;
+}
+#menu-div ul li:hover ul {
+	display: block;
+	position: absolute;
+	top: 42px;
+	left: -15px;
+}
+#menu-div ul li:hover ul li {
+	border-bottom: 1px solid #11689c;
+	border-top: #1f9dd1 1px solid;
+}
+#menu-div ul li:hover ul li a {
+	width: 133px;
+	display: block;
+}
+#menu-div ul li:hover ul li a:hover {
+	width: 133px;
+	display: block;
+	background: #1480b3;
+}
+#menu-div ul li:hover ul li a.hide {
+	background: #6a3;
+	color: #fff;
+}
+#menu-div ul li:hover ul li:hover a.hide {
+	background: #6fc;
+	color: #fff;
+}
+#menu-div li.fix-spacer {
+	border: none;
+}
+.menuSerach {
+	width: 237px;
+	height: 15px;
+	float: right;
+	margin-right: 18px;
+	margin-top: -35px;
+	_width: 240px;
+}
+</style>
+<script type="text/javascript" src="transport_jquery.js"></script><script type="text/javascript">
+// onload = function()
+// {
+//   Ajax.call('index.php?is_ajax=1&act=license','', start_sendmail_Response, 'GET', 'JSON');
+// }
+/**
+ * 帮助系统调用
+ */
+function web_address()
+{
+  var ne_add = parent.document.getElementById('main-frame');
+  var ne_list = ne_add.contentWindow.document.getElementById('search_id').innerHTML;
+  ne_list.replace('-', '');
+  var arr = ne_list.split('-');
+  window.open('help.php?al='+arr[arr.length - 1],'_blank');
+}
+
+
+/**
+ * 授权检测回调处理
+ */
+function start_sendmail_Response(result)
+{
+  // 运行正常
+  if (result.error == 0)
+  {
+    var str = '';
+		if (result['content']['auth_str'])
+		{
+			str = '<a href="javascript:void(0);" target="_blank">' + result['content']['auth_str'];
+			if (result['content']['auth_type'])
+			{
+				str += '[' + result['content']['auth_type'] + ']';
+			}
+			str += '</a> ';
+		}
+
+    document.getElementById('license-div').innerHTML = str;
+  }
+}
+
+function modalDialog(url, name, width, height)
+{
+  if (width == undefined)
+  {
+    width = 400;
+  }
+  if (height == undefined)
+  {
+    height = 300;
+  }
+
+  if (window.showModalDialog)
+  {
+    window.showModalDialog(url, name, 'dialogWidth=' + (width) + 'px; dialogHeight=' + (height+5) + 'px; status=off');
+  }
+  else
+  {
+    x = (window.screen.width - width) / 2;
+    y = (window.screen.height - height) / 2;
+
+    window.open(url, name, 'height='+height+', width='+width+', left='+x+', top='+y+', toolbar=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, modal=yes');
+  }
+}
+
+function ShowToDoList()
+{
+  try
+  {
+    var mainFrame = window.top.frames['main-frame'];
+    mainFrame.window.showTodoList(adminId);
+  }
+  catch (ex)
+  {
+  }
+}
+
+
+var adminId = "1"; 
+</script>
+</head>
+<body>
+<div id="header-div">
+  <div id="logo-div" style="bgcolor:#000000;"><img src="topLogo.png" alt="ECSHOP - power for e-commerce"></div>
+  <div id="license-div" style="bgcolor:#000000;"></div>
+  <div id="submenu-div">
+    <ul>
+    <li><a href="http://www.doudoufei.top/shops/admin/privilege.php?act=logout" target="main-frame"><img src="topmune_08.png" style="border:none;"><span>退出</span></a></li>
+     <li><a href="http://www.doudoufei.top/shops/admin/index.php?act=clear_cache" target="main-frame" class="fix-submenu"><img src="qingchu.png" style="border:none;"><span>清除缓存</span></a></li>
+      <li><a href="http://www.ecmoban.com/ecshop_jieshao.html" target="main-frame"><img src="topmune_07.png" style="border:none;"><span>关于 ECSHOP</span></a></li>
+      
+      <li><a href="javascript:web_address();"><img src="topmune_007.png" style="border:none;"><span>帮助</span></a></li>
+      <li><a href="http://www.doudoufei.top/shops/" target="_blank"><img src="topmune_06.png" style="border:none;"><span>查看网店</span></a></li>
+      <li><a href="http://www.doudoufei.top/shops/admin/message.php?act=list" target="main-frame"><img src="topmune_05.png" style="border:none;"><span>管理员留言</span></a></li>
+      <li><a href="http://www.doudoufei.top/shops/admin/privilege.php?act=modif" target="main-frame"><img src="topmune_04.png" style="border:none;"><span>个人设置</span></a></li>
+      <li><a href="javascript:window.top.frames[&#39;main-frame&#39;].document.location.reload();window.top.frames[&#39;header-frame&#39;].document.location.reload()"><img src="topmune_03.png" style="border:none;"><span>刷新</span></a></li>
+      <li><a href="http://www.doudoufei.top/shops/admin/index.php?act=top#" onclick="ShowToDoList()"><img src="topmune_02.png" style="border:none;"><span>记事本</span></a></li>
+      
+      <li style=""><a href="http://www.doudoufei.top/shops/admin/index.php?act=first" target="main-frame"><img src="topmune_01.png" style="border:none;"><span>开店向导</span></a></li>
+      <li style="width:102px;border-left:none;"><a href="http://www.ecmoban.com/" target="main-frame" style="color:#ff0; width:102px; font-weight:bold;"><img src="topmune_09.png" style="border:none;"><span>更多模板堂产品</span></a></li>
+    </ul>
+    <div id="send_info" style="padding: 5px 10px 0 0; clear:right;text-align: right; color: #FF9900;width:40%;float: right;  display:none;">
+            <a href="http://www.doudoufei.top/shops/admin/index.php?act=clear_cache" target="main-frame" class="fix-submenu">清除缓存</a>
+      <a href="http://www.doudoufei.top/shops/admin/privilege.php?act=logout" target="_top" class="fix-submenu">退出</a>
+    </div>
+        <div id="load-div" style="padding: 5px 10px 0px 0px; text-align: right; color: rgb(255, 153, 0); display: none; width: 40%; float: right;"><img src="top_loader.gif" width="16" height="16" alt="正在处理您的请求..." style="vertical-align: middle"> 正在处理您的请求...</div>
+  </div>
+</div>
+<div id="menu-div">
+  <ul>
+    <li class="fix-spacel">&nbsp;</li>
+    <li style="border-left:none;"><a href="http://www.doudoufei.top/shops/admin/index.php?act=main" target="main-frame"><img src="index-11_07.png" width="17" height="18" style="border:none;" align="absmiddle"><span>起始页</span></a><span class="muneFG"></span></li>
+    
+    <li><a href="http://www.doudoufei.top/shops/admin/privilege.php?act=modif" target="main-frame"><img src="index-11_41.png" width="17" height="18" align="absmiddle"><span>设置导航栏</span></a><span class="muneFG"></span></li>
+    <li><a href="goods.html" target="main-frame"><img src="index-11_09.png" width="17" height="18" align="absmiddle"><span>商品管理</span><span class="num">35</span></a><span class="muneFG"></span></li>
+     <li><a href="http://www.doudoufei.top/shops/admin/order.php?act=list" target="main-frame"><img src="dd.png" width="15" height="18" align="absmiddle"><span>订单管理</span><span class="num">0</span></a><span class="muneFG"></span></li>
+     <li><a href="http://www.doudoufei.top/shops/admin/ads.php?act=list" target="main-frame"><img src="index-11_13.png" width="17" height="20" align="absmiddle"><span>广告管理</span><span class="num">0</span></a><span class="muneFG"></span></li>
+     <li><a href="http://www.doudoufei.top/shops/admin/comment_manage.php?act=list" target="main-frame"><img src="index-11_19.png" width="17" height="18" align="absmiddle"><span>用户评论</span><span class="num">0</span></a><span class="muneFG"></span></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/comment_manage.php?act=list" target="main-frame">用户评论</a></li>
+        <li><a href="goods.html" target="main-frame">商品列表</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/users.php?act=list" target="main-frame">会员列表</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/shop_config.php?act=list_edit" target="main-frame">商店设置</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/lead.php?act=list" target="main-frame">移动版</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/service_market.php" target="main-frame">服务市场</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/goods.php?act=trash" target="main-frame">商品回收站</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/goods.php?act=add" target="main-frame">添加新商品</a></li>
+        <li><a href="http://www.doudoufei.top/shops/admin/goods_type.php?act=manage" target="main-frame">商品类型</a></li>
+        <li class="fix-spacer">&nbsp;</li>
+  </ul>
+  <br class="clear">
+</div>
+
+</body></html>
