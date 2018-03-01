@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>商品列表</title>
 	<link rel="stylesheet" href="./stylesheets/goods_list.css">
+	<script src="./javascripts/jquery.min.js"></script>
 </head>
 <body>
 	<h1>
@@ -100,11 +101,14 @@
 						<a href="javascript:;">操作</a>
 					</th>
 				</tr>
-				<tr>
-					<td><input type="checkbox" value="1">1</td>
-					<td>样例商品</td>
-					<td>111</td>
-					<td>123.00</td>
+
+				<!-- --------------数据库添加------------ -->
+				<% for(var i=0;i<list.length;i++){ %>
+				<tr class="shopContent" >
+					<td><input type="checkbox" value=""><%= i+1 %></td>
+					<td><%= list[i].goods_name %></td>
+					<td><%= list[i].goods_sn %></td>
+					<td><%= list[i].shop_price %></td>
 					<td><img src="./images/yes.gif" alt=""></td>
 					<td><img src="./images/yes.gif" alt=""></td>
 					<td><img src="./images/yes.gif" alt=""></td>
@@ -113,33 +117,34 @@
 					<td>999</td>
 					<td>0</td>
 					<td>
-						<a href=""><img src="./images/icon_view.gif" alt=""></a>
-						<a href=""><img src="./images/icon_edit.gif" alt=""></a>
-						<a href=""><img src="./images/icon_copy.gif" alt=""></a>
-						<a href=""><img src="./images/icon_trash.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品查看" class="shop_details" ><img src="./images/icon_view.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品编辑" class="shop_redact" ><img src="./images/icon_edit.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品复制" class="shop_copy" ><img src="./images/icon_copy.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品删除" class="shop_remove" ><img src="./images/icon_trash.gif" alt=""></a>
 					</td>
 				</tr>
+				<% } %>
+				<!---------------------------------->
 			</tbody>
 		</table>
 	</div>
 	<div id="page-table">
 		<div id="turn-page">
 			总记
-			<span id="totalRecords">29</span>
+			<span id="totalRecords"></span>
 			个记录分别为
-			<span id="totalPages">2</span>
+			<span id="totalPages"></span>
 			页当前为第
-			<span id="pageCurrent">1</span>
+			<span id="pageCurrent"></span>
 			页,每页
 			<input type="text" size="3" id="pageSize" value="15" >
 			<span id="page-link">
-				<a href="javascript:;">第一页</a>
-				<a href="javascript:;">上一页</a>
-				<a href="javascript:;">下一页</a>
-				<a href="javascript:;">最末页</a>
+				<a href="javascript:;" id="firstPage" >第一页</a>
+				<a href="javascript:;" id="prevPage" >上一页</a>
+				<a href="javascript:;" id="nextPage" >下一页</a>
+				<a href="javascript:;" id="lastPage" >最末页</a>
 				<select name="" id="gotoPage">
 					<option value="1">1</option>
-					<option value="2">2</option>
 				</select>
 			</span>
 		</div>
@@ -161,3 +166,112 @@
 	</div>
 </body>
 </html>
+<script>
+	window.onload = function(){
+		new Shop_remove().init();
+		new NumMessage().init();
+	}
+	function Shop_remove(){
+		this.init = function(){
+			$(".shop_remove").click(function(){
+				if( confirm("确认删除吗?") ){
+					$(this).parent().parent().remove();
+					var count = $(this).parent().parent().children();
+					$.ajax({
+						url:"/shop_list_operate/shop_remove",
+						type:"post",
+						data:{
+							goods_name : count.eq(1).html(),
+							goods_sn : count.eq(2).html()
+						},
+						success:function(res){
+							console.log(res)
+						}
+					})
+				}
+			})
+		}
+	}
+	function NumMessage(){
+		this.currentPage = 1;
+		this.init = function(){
+			this.num();          //一共有多少条数据
+			this.pageNum();      //一共有多少页
+			this.target();       //更换显示
+			this.firstPage();    //切换到第一页 
+			this.prevPage();     //上一页
+			this.nextPage();     //下一页
+			this.lastPage();     //最末页
+			this.pageSize();     //改变每页显示个数
+			this.pageCurrent();  //当前页码
+		};
+		this.pageCurrent = function(){
+			$("#pageCurrent").html(this.currentPage) 
+		}
+		
+		this.pageSize = function(){
+			$("#pageSize").blur(function(){
+				this.currentPage = 1;
+				this.pageNum()
+				this.target();
+			}.bind(this))
+		};
+		this.num = function(){
+			$("#totalRecords").html( $("#listDiv tr").size()-1 );
+			return $("#listDiv tr").size()-1;
+		};
+		this.pageNum = function(){
+			var num = this.num()
+			$("#totalPages").html( Math.ceil( num / $("#pageSize").val() ) )
+			return $("#totalPages").html();
+		};
+		this.target = function(){
+			var num = this.currentPage;
+			var padeSize = $("#pageSize").val();
+			$(".shopContent").css({"display":"none"});
+			this.pageCurrent();
+			for( var i = 0 ; i < padeSize ; i++ ){
+				var gather = (num-1)*padeSize+i;
+				if($(".shopContent").eq(gather)){
+					$(".shopContent").eq(gather).css({"display":"table-row"})
+				}
+			}
+		};
+		this.nextPage = function(){
+			$("#nextPage").click(function(e){
+				e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+				if( this.currentPage == this.pageNum() ){
+					this.currentPage = this.pageNum()
+				}else{
+					this.currentPage = this.currentPage+1;
+					this.target();
+				}
+			}.bind(this))
+		}
+		this.firstPage = function(){
+			$("#firstPage").click(function(){
+				this.currentPage = 1;
+				this.target();
+			}.bind(this))
+		};
+		this.lastPage = function(){
+			$("#lastPage").click(function(){
+				this.currentPage = this.pageNum();
+				this.target();
+			}.bind(this))
+		};
+		this.prevPage = function(){
+			$("#prevPage").click(function(){
+				if( this.currentPage == 1 ){
+					this.currentPage = 1;
+				}else{
+					this.currentPage = this.currentPage-1;
+					this.target();
+				}
+			}.bind(this))
+		};
+		this.gotoPage = function(){
+			$("#")
+		}
+	}
+</script>

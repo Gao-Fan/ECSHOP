@@ -4,9 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require("express-session")
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var shop_list_operate = require("./routes/shop_list_operate")
 
 var app = express();
 
@@ -25,9 +27,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//官方文档的错误
+// app.use(session({
+// 	secret:"keyboard cat",
+// 	resave:false,
+// 	saveUninitialized:true,
+// 	cookie:{secure:true}
+// }))
+ 
+app.use(session({
+	secret:"keyboard cat",
+	resave:true,
+	saveUninitialized:false
+}))
 
 app.use('/', index);
 app.use('/users', users);
+app.use("/shop_list_operate",shop_list_operate)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

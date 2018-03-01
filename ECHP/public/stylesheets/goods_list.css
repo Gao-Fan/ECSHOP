@@ -70,15 +70,14 @@ input.button{
 .list-div table{
 	width: 100%;
 	background: #ddd;
+	border: 1px solid grey;
+	margin-bottom: 1px;
 }
 .list-div th{
 	line-height: 39px;
 	background: #f3f3f3 url(../images/th_bg.gif) repeat-x;
 	white-space: nowrap;
 } 
-.list-div table{
-	border: 1px solid grey;
-}
 .list-div td{
 	background-color: rgb(255,255,255);
 	padding: 10px;

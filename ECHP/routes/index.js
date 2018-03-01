@@ -3,6 +3,7 @@ var router = express.Router();
 var md5 = require("md5");
 var multiparty = require("multiparty")
 var UserModel = require("../model/UserModel");
+var GoodsModel = require("../model/GoodsModel");
 
 /* GET home page. */
 //登录页面
@@ -15,15 +16,29 @@ router.get('/regist', function(req, res, next) {
 });
 //系统页面
 router.get('/admin', function(req, res, next) {
-  res.render('admin', {});
+  if(req.session && req.session.username != null ){
+  	res.render('admin', {});
+  }else{
+  	res.redirect("/")
+  }
 });
 //商品添加页面
 router.get('/goods_add', function(req, res, next) {
-  res.render('goods_add', {});
+  if(req.session && req.session.username != null ){
+  	res.render('goods_add', {});
+  }else{
+  	res.redirect("/");
+  }
 });
 //商品列表页面
 router.get("/goods_list",function(req,res,next){
-	res.render("goods_list" , {} )
+	if( req.session && req.session.username != null ){
+		GoodsModel.find({},function(err,docs){
+			res.render("goods_list" , {list:docs} )
+		})
+	}else{
+		res.redirect("/");
+	}
 })
 
 //商品添加-操作
@@ -31,14 +46,40 @@ router.post("/api/add_goods",function(req,res){
 	var form = new multiparty.Form({
 		uploadDir : "./public/shopImgs"
 	})
-	form = parse(req,function(err,body,fils){
+	form.parse(req,function(err,body,files){
 		//转换后的对象都是数组
 		var goods_name = body.goods_name[0];
-		var price = body.price[0];
-		console.log(files);
-		res.send("文件上传成功");
+		var goods_sn = body.goods_sn[0];
+		var cat_id = body.cat_id[0];
+		var shop_price = body.shop_price[0];
+		var goods_imgName = files.goods_img[0].path;
+		goods_imgName = goods_imgName.substr(goods_imgName.lastIndexOf("\\")+1);
+		//console.log(goods_name,goods_sn,cat_id,shop_price,goods_imgName);
+		GoodsModel.find({goods_name:goods_name,goods_sn:goods_sn},function(err,docs){
+			console.log(docs)
+			if( !err && docs.length == 0 ){
+				var gm = new GoodsModel()
+				gm.goods_name = goods_name;
+				gm.goods_sn = goods_sn;
+				gm.cat_id = cat_id;
+				gm.shop_price = shop_price;
+				gm.goods_imgName = goods_imgName;
+				gm.save(function(err){
+					if(!err){
+						res.send("商品添加成功");
+					}else{
+						res.send("商品添加失败");
+					}
+				})
+			}else{
+				res.send("数据库中已经存在该商品");
+				// console.log("数据库中已经存在该商品")
+			}
+		})
+		
 	})	
 })
+
 //登录页面-参数操作
 router.post("/api/login",function(req,res){
 	var username = req.body.username;
@@ -51,6 +92,7 @@ router.post("/api/login",function(req,res){
 
 	UserModel.find({username:username,psw:psw},function(err,docs){
 		if(!err && docs.length > 0 ){
+			req.session.username = username;
 			console.log("登录成功");
 			res.send(result);
 		}else{
@@ -70,7 +112,6 @@ router.post("/api/regist",function(req,res){
 	var psw = md5(req.body.psw);
 	//查看用户名是否被占用
 	//docs:查询结果
-	
 	var result = {
 		status : 1,
 		message : "注册成功"
