@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+    <title>注册页面</title>
+    <script src="./javascripts/jquery.min.js"></script>
+  </head>
+  <body>
+	<h1>注册页面</h1>
+	用户名： <input type="text" id="username" ><br />
+	密码 <input type="password" id="psw" ><br />
+	<button onclick="regist()">注册</button>
+  </body>
+  <script>
+  	function regist(){
+  		$.ajax({
+  			url  : "/api/regist",
+  			type : "post",
+  			data : {
+  				username : $("#username").val(),
+  				psw : $("#psw").val()
+  			},
+  			success : function(res){
+  				console.log(res);
+  			}
+  		})
+  	}
+  </script>
+</html>

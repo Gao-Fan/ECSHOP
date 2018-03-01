@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+    <title>ECSHOP 管理中心</title>
+    <link rel="stylesheet" href="./stylesheets/font_4qenl55x0k65hfr/iconfont.css">
+    <link rel='stylesheet' type="text/css" href='./stylesheets/login.css' />
+    <script src="./javascripts/jquery.min.js"></script>
+  </head>
+  <body style="height:100% ; padding:0">
+	<div class="login-hd">
+		<img src="./images/shopex.png" alt="shopex" class="logo">
+	</div>
+	<div class="center-wrap" id="centerWrap">
+		<div class="login-center">
+			<div class="bd-logo">
+				<img src="./images/ecshop-logo.png" width="373" height="103" border="0" alt="">
+			</div>
+		</div>
+		<div class="z-bd">
+			<div class="login-panel" id="loginPanel">
+				<h3 class="panel-hd cl-link-blue"></h3>
+				<div class="controls first">
+					<i class="iconfont icon-xingmingyonghumingnicheng"></i>
+					<input type="text" id="username" placeholder="用户名">
+				</div>
+				<div class="controls two">
+					<i class="iconfont icon-mima"></i>
+					<input type="password" id="psw" placeholder="密码">
+				</div>
+				<div class="controls trird active">
+					<i class="iconfont icon-dunpaisuo"></i>
+					<input type="text" id="authCode" placeholder="验证码">
+				</div>
+				<div class="controls last">
+					<input type="sumnit" class="btn-a" onclick="login()" value="登录">
+					<span style="display:none" id="login_error_msg"></span>
+				</div>
+				<div class="controls bside">
+					<input type="checkbox" value="1" name="remember" id="remember">
+					<label for="remember">保存登录信息</label>
+					<a href="#" class="link-forget cl-link-blue" >忘记密码？</a>
+					<a href="#" class="link-home cl-link-blue">去店铺首页>></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  </body>
+</html>
+<script>
+	function login(){
+		$.ajax({
+			url : "/api/login",
+			type : "post", 
+			data:{
+				username : $("#username").val(),
+				psw: $("#psw").val()
+			},
+			success : function(res){
+				console.log(res)
+				if( res.status == 1 ){
+					location.href = "/admin";
+				}else{
+					alert(res.message)
+				}
+			}
+		})
+	}
+</script>

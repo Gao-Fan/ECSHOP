@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>商品添加</title>
+		<link rel="stylesheet" href="./stylesheets/goods_add.css">
+		<script src="./javascripts/jquery.min.js"></script>
+	</head>
+	<body>
+		<h1>
+			<span class="action-span">
+				<a href="#">
+					商品列表
+				</a>
+			</span>
+			<span class="action-span1">
+				<a href="#">
+					ECSHOP 商品管理中心
+				</a>
+			</span>
+			<span id="search_id" class="action-span1"> - 添加新商品</span>
+			<span class="help_sub">
+				<a href="#">
+					<img src="../images/jnsy.png" alt="">
+				</a>
+			</span>
+		</h1>
+		<div class="tab-div">
+			<div id="tabbar-div">
+				<p>
+					<span class="tab-front">通用信息</span>
+					<span class="tab-back">详细描述</span>
+					<span class="tab-back">其他信息</span>
+					<span class="tab-back">商品属性</span>
+					<span class="tab-back">商品相册</span>
+					<span class="tab-back">关联商品</span>
+					<span class="tab-back">配件</span>
+					<span class="tab-back">关联文章</span>
+				</p>
+			</div>
+			<div id="tabbody-div">
+				<form action="/api/add_goods" enctype="multipart/form-data" id="frm" method="post" name="theForm">
+					<table width="90%" id="general-table" align="center" class="goods_info">
+						<tbody>
+
+							<tr>
+								<td class="label">商品名称:</td>
+								<td>
+									<input type="text" name="goods_name" style="float:left;color:;" size="30">
+									<div></div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="./images/notice.gif" width="16" height="16" border="0" alt="">
+									</a>
+									商品货号:
+								</td>
+								<td>
+									<input type="text" name="goods_sn" size="20">
+									<span id="goods_sn_notice"></span>
+									<br />
+									<span class="notice-span" style="display:none" id="noticeGoodsSn">
+										如果您不输入商品号,系统将自动生成一个唯一的货号
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">商品分类:</td>
+								<td>
+									<select name="cat_id" >
+										<option value="0">休闲裤</option>
+										<option value="1">牛仔裤</option>
+										<option value="2">西裤</option>
+										<option value="3">牛仔中裤</option>
+										<option value="4">休闲分库</option>
+									</select>
+									<a href="#" class="special">
+										添加分类
+									</a>
+									<span class="require-field">*</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">扩展分类: </td>
+								<td>
+									<input type="button" class="button" value="添加">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">本店售价:</td>
+								<td>
+									<input type="text" name="shop_price" value="0" size="20">
+									<input type="button" value="按市场价格计算">
+									<span class="require-field">*</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="../images/notice.gif" width="16" height="16" alt="">
+									</a>
+									会员价格:
+								</td>
+								<td>
+									注册用户
+									<input type="text" style="width:50px">
+									代销用户
+									<input type="text" style="width:50px">
+									VIP
+									<input type="text" style="width:50px">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="../images/notice.gif" width="16" height="16" alt="">
+										商品优惠价格
+									</a>
+								</td>
+								<td>
+									[+]优惠数量 
+									<input type="text" style="width:50px">
+									优惠价格
+									<input type="text" style="width:50px">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">市场售价: </td>
+								<td>
+									<input type="text" placeholder="0">
+									<input type="button" value="取整数">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">虚拟销售: </td>
+								<td>
+									<input type="text" placeholder="0">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="../images/notice.gif" width="16" height="16" alt="">
+										赠送消费积分数:
+									</a>
+								</td>
+								<td>
+									<input type="text" value="-1" size="20">
+									<br />
+									<span class="notice-span">
+										购买该商品是赠送消费积分,-1表示按商品价格赠送
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="../images/notice.gif" width="16" height="16" alt="">
+										赠送等级积分数:
+									</a>
+								</td>
+								<td>
+									<input type="text" value="-1" size="20">
+									<br />
+									<span class="notice-span">
+										购买该商品是赠送等级积分,-1表示按商品价格赠送
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<a href="#">
+										<img src="../images/notice.gif" width="16" height="16" alt="">
+										积分购买金额:
+									</a>
+								</td>
+								<td>
+									<input type="text" value="0" size="20">
+									<br />
+									<span class="notice-span">
+										(此处需填写金额)购买该商品时最多可以使用积分的金额
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<label for="is_promote">
+										<input type="checkbox" id="is_promote" >
+										促销价:
+									</label>
+								</td>
+								<td>
+									<input type="text" size="20">
+								</td>
+							</tr>
+							<tr>
+								<td class="label">上传商品图片: </td>
+								<td>
+									<input type="file" name="goods_img" size="35">
+									<img src="../images/no.gif" alt="">
+									<br>
+									<input type="text" size="40" placeholder="商品图片的外部URL" name="goods_img_url">
+								</td>
+							</tr>
+							<tr id="auto_thumb_1">
+								<td class="label">上传商品缩略图: </td>
+								<td>
+									<input type="file" name="goods_thumb" size="35">
+									<img src="../images/no.gif" alt="">
+									<br>
+									<input type="text" size="40" placeholder="商品缩略图外部URL">
+									<br>
+									<label for="auto_thumb">
+										<input type="checkbox" id="auto_thumb" >
+										自动生成商品缩略图
+									</label>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+					<div class="button-div">
+						<input type="hidden" name="goods_id" value="0">
+						<input onclick="addGoods()" type="button" value="确定" class="button">
+						<input type="reset" value="重置" class="button">
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="footer">
+			共执行 9 个查询，用时 0.024008 秒，Gzip 已禁用，内存占用 3.593 MB
+			<br>
+			版权所有 © 2005-2018 上海商派软件有限公司，并保留所有权利。
+		</div>
+	</body>
+	</html>	
+<script>
+	//JQ的ajax不支持文件上传
+	//使用原生JS or 使用表单文件上传
+	function addGoods(){
+		document.getElementById("frm").submit();
+	}
+</script>
