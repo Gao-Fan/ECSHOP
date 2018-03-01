@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>商品列表</title>
-	<link rel="stylesheet" href="./stylesheets/goods_list.css">
-	<script src="./javascripts/jquery.min.js"></script>
+	<link rel="stylesheet" href="/stylesheets/goods_list.css">
+	<script src="/javascripts/jquery.min.js"></script>
 </head>
 <body>
 	<h1>
@@ -21,13 +21,13 @@
 		<span id="search_id" class="action-span1"> - 商品列表</span>
 		<span class="help_sub">
 			<a href="#">
-				<img src="../images/jnsy.png" alt="">
+				<img src="/images/jnsy.png" alt="">
 			</a>
 		</span>
 	</h1>
 	<div class="form-div">
-		<form action="javascripts:;" name="searchForm">
-			<img src="./images/icon_search.gif" width="26" height="22" alt="">
+		<form action="/api/goods_list" name="searchForm" method="post" id="searchForm">
+			<img src="/images/icon_search.gif" width="26" height="22" alt="">
 			<select name="" id="" style="width:140px">
 				<option value="">所有分类</option>
 				<option value="">分类1</option>
@@ -54,8 +54,8 @@
 				<option value="">全部3</option>
 			</select>
 			关键字
-			<input type="text" >
-			<input type="submit" class="button">
+			<input type="text" name="keyword" >
+			<input type="submit" class="button" id="find_goods">
 		</form>
 	</div>
 	<div class="list-div" id="listDiv">
@@ -65,7 +65,7 @@
 					<th>
 						<input type="checkbox">
 						<a href="javascript:;">编号</a>
-						<img src="./images/sort_desc.gif">
+						<img src="/images/sort_desc.gif">
 					</th>
 					<th>
 						<a href="javascript:;">商品名称</a>
@@ -109,18 +109,18 @@
 					<td><%= list[i].goods_name %></td>
 					<td><%= list[i].goods_sn %></td>
 					<td><%= list[i].shop_price %></td>
-					<td><img src="./images/yes.gif" alt=""></td>
-					<td><img src="./images/yes.gif" alt=""></td>
-					<td><img src="./images/yes.gif" alt=""></td>
-					<td><img src="./images/yes.gif" alt=""></td>
+					<td><img src="/images/yes.gif" alt=""></td>
+					<td><img src="/images/yes.gif" alt=""></td>
+					<td><img src="/images/yes.gif" alt=""></td>
+					<td><img src="/images/yes.gif" alt=""></td>
 					<td>推荐的排序</td>
 					<td>999</td>
 					<td>0</td>
 					<td>
-						<a href="javaScript:;" alt="商品查看" class="shop_details" ><img src="./images/icon_view.gif" alt=""></a>
-						<a href="javaScript:;" alt="商品编辑" class="shop_redact" ><img src="./images/icon_edit.gif" alt=""></a>
-						<a href="javaScript:;" alt="商品复制" class="shop_copy" ><img src="./images/icon_copy.gif" alt=""></a>
-						<a href="javaScript:;" alt="商品删除" class="shop_remove" ><img src="./images/icon_trash.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品查看" class="shop_details" ><img src="/images/icon_view.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品编辑" class="shop_redact" ><img src="/images/icon_edit.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品复制" class="shop_copy" ><img src="/images/icon_copy.gif" alt=""></a>
+						<a href="javaScript:;" alt="商品删除" class="shop_remove" ><img src="/images/icon_trash.gif" alt=""></a>
 					</td>
 				</tr>
 				<% } %>
@@ -270,8 +270,5 @@
 				}
 			}.bind(this))
 		};
-		this.gotoPage = function(){
-			$("#")
-		}
 	}
 </script>
