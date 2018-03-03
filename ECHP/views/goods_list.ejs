@@ -26,7 +26,8 @@
 		</span>
 	</h1>
 	<div class="form-div">
-		<form action="/SLO/api/goods_list" name="searchForm" method="post" id="searchForm">
+		<!--------------------查找-------------------->
+		<form action="/SLO/goods_list" name="searchForm" method="get" id="searchForm">
 			<img src="/images/icon_search.gif" width="26" height="22" alt="">
 			<select name="" id="" style="width:140px">
 				<option value="">所有分类</option>
@@ -54,7 +55,7 @@
 				<option value="">全部3</option>
 			</select>
 			关键字
-			<input type="text" name="keyword" >
+			<input type="text" name="keyword" value="<%= keyword %>">
 			<input type="submit" class="button" id="find_goods">
 		</form>
 	</div>
@@ -123,7 +124,7 @@
 					</td>                                            
 				</tr>
 				<% } %>
-				<!---------------------------------->
+				<!------------------------------------------------>
 			</tbody>
 		</table>
 	</div>
@@ -138,12 +139,15 @@
 			页,每页
 			<input type="text" size="3" id="pageSize" value="<%= count %>" >
 			<span id="page-link">
-				<a href="/SLO/goods_list?pageNo=1&count=<%= count %>" id="prevPage" id="firstPage" >第一页</a>
-				<a href="/SLO/goods_list?pageNo=<%= pageNo-1 %>&count=<%= count %>" id="prevPage" >上一页</a>
-				<a href="/SLO/goods_list?pageNo=<%= pageNo+1 %>&count=<%= count %>" id="nextPage" >下一页</a>
-				<a href="/SLO/goods_list?pageNo=<%= PageMessage.pageNum %>&count=<%= count %>" >最末页</a>
+				<a href="/SLO/goods_list?pageNo=1&count=<%= count %>&keyword=<%= keyword %>" id="prevPage" id="firstPage" >第一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= pageNo-1 %>&count=<%= count %>&keyword=<%= keyword %>" id="prevPage" >上一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= pageNo+1 %>&count=<%= count %>&keyword=<%= keyword %>" id="nextPage" >下一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= PageMessage.pageNum %>&count=<%= count %>&keyword=<%= keyword %>" >最末页</a>
 				<select name="" id="gotoPage">
-					<option value="1">1</option>
+					<option value="<%= pageNo %>"><%= pageNo %></option>
+					<% for(var i=0;i<PageMessage.pageNum;i++ ){ %>
+						<option value="<%= i+1 %>"><%= i+1 %></option>
+					<% } %>
 				</select>
 			</span>
 		</div>
@@ -184,6 +188,24 @@
 			})
 		}
 	}
+	$("#gotoPage").change(function(){
+		location.href = "/SLO/goods_list?count="+$("#pageSize").val()+"&keyword="+$("input[name=keyword]").val()+"&pageNo="+$("#gotoPage").val();
+	})
+	$("#pageSize").blur(function(){
+		location.href = "/SLO/goods_list?count="+$("#pageSize").val()+"&keyword="+$("input[name=keyword]").val()
+	})
+	// $("#pageSize").blur(function(){
+	// 	$.ajax({
+	// 		url : "/SLO/goods_list",
+	// 		type : "get",
+	// 		data : {
+	// 			count : $("#pageSize").val()
+	// 		},
+	// 		success:function(res){
+	// 			console.log(res)
+	// 		}
+	// 	})
+	// });
 	function NumMessage(){
 		this.currentPage = 1;
 		this.init = function(){

@@ -41,6 +41,7 @@ router.post("/api/add_goods",function(req,res){
 	form.parse(req,function(err,body,files){
 		//转换后的对象都是数组
 		var goods_name = body.goods_name[0];
+		console.log("和谐版:"+ goods_name)
 		var goods_sn = body.goods_sn[0];
 		var cat_id = body.cat_id[0];
 		var shop_price = body.shop_price[0];
@@ -48,7 +49,6 @@ router.post("/api/add_goods",function(req,res){
 		goods_imgName = goods_imgName.substr(goods_imgName.lastIndexOf("\\")+1);
 		//console.log(goods_name,goods_sn,cat_id,shop_price,goods_imgName);
 		GoodsModel.find({goods_name:goods_name,goods_sn:goods_sn},function(err,docs){
-			console.log(docs)
 			if( !err && docs.length == 0 ){
 				var gm = new GoodsModel()
 				gm.goods_name = goods_name;
