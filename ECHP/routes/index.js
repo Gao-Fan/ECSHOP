@@ -30,27 +30,8 @@ router.get('/goods_add', function(req, res, next) {
   	res.redirect("/");
   }
 });
-//商品列表页面
-router.get("/goods_list",function(req,res){
-	if( req.session && req.session.username != null ){
-		GoodsModel.find({},function(err,docs){
-			res.render("goods_list" , {list:docs} )
-		})
-	}else{
-		res.redirect("/");
-	}
-})
-//查找功能
-router.post("/api/goods_list",function(req,res){
-	if( req.session && req.session.username != null ){
-		var keyword = req.body.keyword;
-		GoodsModel.find({goods_name:{$regex:keyword}},function(err,docs){
-			res.render("goods_list" , {list:docs} )
-		})
-	}else{
-		res.redirect("/");
-	}
-})
+
+
 
 //商品添加-操作
 router.post("/api/add_goods",function(req,res){

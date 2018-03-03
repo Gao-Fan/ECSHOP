@@ -26,7 +26,7 @@
 		</span>
 	</h1>
 	<div class="form-div">
-		<form action="/api/goods_list" name="searchForm" method="post" id="searchForm">
+		<form action="/SLO/api/goods_list" name="searchForm" method="post" id="searchForm">
 			<img src="/images/icon_search.gif" width="26" height="22" alt="">
 			<select name="" id="" style="width:140px">
 				<option value="">所有分类</option>
@@ -101,7 +101,6 @@
 						<a href="javascript:;">操作</a>
 					</th>
 				</tr>
-
 				<!-- --------------数据库添加------------ -->
 				<% for(var i=0;i<list.length;i++){ %>
 				<tr class="shopContent" >
@@ -120,8 +119,8 @@
 						<a href="javaScript:;" alt="商品查看" class="shop_details" ><img src="/images/icon_view.gif" alt=""></a>
 						<a href="javaScript:;" alt="商品编辑" class="shop_redact" ><img src="/images/icon_edit.gif" alt=""></a>
 						<a href="javaScript:;" alt="商品复制" class="shop_copy" ><img src="/images/icon_copy.gif" alt=""></a>
-						<a href="javaScript:;" alt="商品删除" class="shop_remove" ><img src="/images/icon_trash.gif" alt=""></a>
-					</td>
+						<a href="javaScript:;" onclick="Shop_remove('<%= list[i]._id %>')" alt="商品删除" class="shop_remove" ><img src="/images/icon_trash.gif" alt=""></a>
+					</td>                                            
 				</tr>
 				<% } %>
 				<!---------------------------------->
@@ -131,18 +130,18 @@
 	<div id="page-table">
 		<div id="turn-page">
 			总记
-			<span id="totalRecords"></span>
+			<span id="totalRecords"><%= PageMessage.num %></span>
 			个记录分别为
-			<span id="totalPages"></span>
+			<span id="totalPages"><%= PageMessage.pageNum %></span>
 			页当前为第
-			<span id="pageCurrent"></span>
+			<span id="pageCurrent"><%= pageNo %></span>
 			页,每页
-			<input type="text" size="3" id="pageSize" value="15" >
+			<input type="text" size="3" id="pageSize" value="<%= count %>" >
 			<span id="page-link">
-				<a href="javascript:;" id="firstPage" >第一页</a>
-				<a href="javascript:;" id="prevPage" >上一页</a>
-				<a href="javascript:;" id="nextPage" >下一页</a>
-				<a href="javascript:;" id="lastPage" >最末页</a>
+				<a href="/SLO/goods_list?pageNo=1&count=<%= count %>" id="prevPage" id="firstPage" >第一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= pageNo-1 %>&count=<%= count %>" id="prevPage" >上一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= pageNo+1 %>&count=<%= count %>" id="nextPage" >下一页</a>
+				<a href="/SLO/goods_list?pageNo=<%= PageMessage.pageNum %>&count=<%= count %>" >最末页</a>
 				<select name="" id="gotoPage">
 					<option value="1">1</option>
 				</select>
@@ -159,35 +158,28 @@
 		<input type="button" value="确定" class="button">
 	</div>
 	<div id="footer">
-			共执行 9 个查询，用时 0.024008 秒，Gzip 已禁用，内存占用 3.593 MB
-			<br>
-			版权所有 © 2005-2018 上海商派软件有限公司，并保留所有权利。
-			<br>
+		共执行 9 个查询，用时 0.024008 秒，Gzip 已禁用，内存占用 3.593 MB
+		<br>
+		版权所有 © 2005-2018 上海商派软件有限公司，并保留所有权利。
+		<br>
 	</div>
 </body>
 </html>
 <script>
-	window.onload = function(){
-		new Shop_remove().init();
-		new NumMessage().init();
-	}
-	function Shop_remove(){
-		this.init = function(){
-			$(".shop_remove").click(function(){
-				if( confirm("确认删除吗?") ){
-					$(this).parent().parent().remove();
-					var count = $(this).parent().parent().children();
-					$.ajax({
-						url:"/shop_list_operate/shop_remove",
-						type:"post",
-						data:{
-							goods_name : count.eq(1).html(),
-							goods_sn : count.eq(2).html()
-						},
-						success:function(res){
-							console.log(res)
-						}
-					})
+	//new NumMessage().init();
+	function Shop_remove(gid){
+		if( confirm("确认删除吗?" ) ){
+			$.ajax({
+				url:"/SLO/shop_remove",
+				type:"get",
+				data:{
+					gid:gid
+				},
+				success : function(res){
+					console.log(res);
+					if(res.status == 1){
+						location.reload(true)
+					}
 				}
 			})
 		}
