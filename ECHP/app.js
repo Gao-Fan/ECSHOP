@@ -45,7 +45,7 @@ app.use(session({
 app.use('/', index);
 app.use('/users', users);
 app.use("/SLO",SLO);
-app.use('/ShopCar',ShopCar);
+app.use('/shopcar',ShopCar);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -69,7 +69,7 @@ router.post("/api/add_goods",function(req,res){
 			}
 		})
 		
-	})	
+	})	//这里是from结束位置
 })
 
 //登录页面-参数操作
